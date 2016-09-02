@@ -23,9 +23,7 @@ RUN apk add --no-cache ca-certificates wget \
 
 RUN mkdir /run/nginx
 
-##
-## INIT
-##
-
 VOLUME ["/etc/letsencrypt"]
+
 ENTRYPOINT [ "/init" ]
+CMD ["nginx", "-g", "daemon off;"]
