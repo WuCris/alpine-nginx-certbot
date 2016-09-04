@@ -22,6 +22,8 @@ RUN apk add --no-cache ca-certificates wget \
  && apk del wget ca-certificates
 
 RUN mkdir /run/nginx
+RUN chmod 500 /etc/periodic/monthly/certbot-renew
+RUN mkdir /var/log/certbot/
 
 VOLUME ["/etc/letsencrypt"]
 

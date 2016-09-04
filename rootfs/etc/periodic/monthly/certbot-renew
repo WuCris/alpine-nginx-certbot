@@ -1,0 +1,3 @@
+#!/bin/sh
+certbot renew --quiet --no-self-upgrade >> /var/log/certbot/renew.log
+nginx -s reload >> /var/log/certbot/renew.log
