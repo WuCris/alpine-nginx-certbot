@@ -14,8 +14,8 @@ COPY rootfs /
 ADD https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && rm -R /tmp/s6-overlay-amd64.tar.gz
 
-RUN chmod 500 /etc/periodic/monthly/certbot-renew
-RUN mkdir /var/log/certbot/
+RUN chmod 500 /etc/periodic/monthly/certbot-renew && \
+    mkdir /var/log/certbot/
 
 VOLUME ["/etc/letsencrypt"]
 
