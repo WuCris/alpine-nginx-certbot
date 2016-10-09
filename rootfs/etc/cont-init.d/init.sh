@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv sh
 
+set -e
 
 # If TOS isn't agreed to output error to stderr
 if [ ! $AGREE_TO_TOS = yes ]; then
