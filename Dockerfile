@@ -2,6 +2,7 @@ FROM nginx:stable-alpine
 MAINTAINER Chris Wutherich
 
 ENV OVERLAY_VERSION v1.18.1.5
+ENV TERM xterm-256color
 
 RUN apk update
 RUN apk upgrade
