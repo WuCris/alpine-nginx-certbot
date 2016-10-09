@@ -4,6 +4,7 @@ MAINTAINER Chris Wutherich
 ##
 ## ROOTFS
 ##
+ENV OVERLAY_VERSION v1.18.1.5
 
 RUN apk update
 RUN apk upgrade
@@ -14,12 +15,9 @@ RUN apk add certbot
 # root filesystem
 COPY rootfs /
 
-# s6 overlay
-RUN apk add --no-cache ca-certificates wget \
- && wget https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz -O /tmp/s6-overlay.tar.gz \
- && tar xvfz /tmp/s6-overlay.tar.gz -C / \
- && rm -f /tmp/s6-overlay.tar.gz \
- && apk del wget ca-certificates
+# Install s6 overlay
+ADD https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && rm -R /tmp/s6-overlay-amd64.tar.gz
 
 RUN mkdir /run/nginx
 RUN chmod 500 /etc/periodic/monthly/certbot-renew
