@@ -9,6 +9,8 @@ RUN apk add certbot
 
 # root filesystem
 COPY rootfs /
+# Copy nginx
+COPY nginx /etc/nginx
 
 # Install s6 overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-amd64.tar.gz /tmp/
