@@ -1,9 +1,6 @@
 FROM nginx:stable-alpine
 MAINTAINER Chris Wutherich
 
-##
-## ROOTFS
-##
 ENV OVERLAY_VERSION v1.18.1.5
 
 RUN apk update
