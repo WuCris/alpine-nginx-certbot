@@ -15,7 +15,8 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VE
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && rm -R /tmp/s6-overlay-amd64.tar.gz
 
 RUN chmod 500 /etc/periodic/monthly/certbot-renew && \
-    mkdir /var/log/certbot/ /var/certbot-webroot/
+    mkdir /var/log/certbot/ /var/certbot-webroot/ && \
+    rm /etc/nginx/conf.d/default.conf
 
 VOLUME ["/etc/letsencrypt"]
 
