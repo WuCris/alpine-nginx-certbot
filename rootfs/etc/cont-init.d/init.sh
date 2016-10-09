@@ -4,4 +4,4 @@
 # and a www. infront of it (while also preserving non www domains)
 DOMAINS=$(env | awk 'BEGIN{FS="="} /DOMAIN_/ {print " -d " $2  " -d www."$2} ORS=" " FS="="')
 
-certbot certonly --webroot -w /var/nginx/ $DOMAINS
+certbot certonly --webroot -w /var/certbot-webroot/ $DOMAINS
