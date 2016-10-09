@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+ nginx:
+  build: .
+  image: alpine-nginx-certbot:latest
+  container_name: alpine-nginx-certbot
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - nginx-logs:/var/logs/nginx
+    - letsencrypt:/etc/letsencrypt
+  environment:
+    - DOMAIN_1=domain1.example.com
+    - DOMAIN_2=domain2.example.com
+    - DOMAIN_3=domain3.example.com
+    - DOMAIN_4=domain4.example.com
+    - DOMAIN_5=domain5.example.com
+
+volumes:
+  nginx-logs:
+  letsencrypt:
