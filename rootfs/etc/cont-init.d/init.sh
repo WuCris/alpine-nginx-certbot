@@ -36,7 +36,15 @@ if [ $SUM -gt 0 ]; then
 fi
 
 
+exit_on_certbot_fail ()
+{
+    EXIT_STATUS=$?
+    redirfd -w 1 /var/run/s6/env-stage3/S6_CMD_EXITED s6-echo -n -- "$EXIT_STATUS"
+    s6-svscanctl -t /var/run/s6/services
+    exit  "$EXIT_STATUS"
+}
+
 # This takes all environment variables with DOMAIN_ prefix and prepends a -d flag
 # and a www. infront of it (while also preserving non www domains)
 DOMAINS=$(env | awk 'BEGIN{FS="="} /DOMAIN_/ {print " -d " $2  " -d www."$2} ORS=" " FS="="')
-certbot certonly --agree-tos --account $EMAIL_ACCOUNT --webroot -w /var/certbot-webroot/ $DOMAINS
+certbot certonly --agree-tos --account $EMAIL_ACCOUNT --webroot -w /var/certbot-webroot/ $DOMAINS || exit_on_certbot_fail
