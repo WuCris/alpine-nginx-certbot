@@ -3,6 +3,8 @@ MAINTAINER Chris Wutherich
 
 ENV OVERLAY_VERSION v1.18.1.5
 ENV TERM xterm-256color
+# Don't start services if cont-init.d fails and shut down container.
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS 2
 
 RUN apk update && apk upgrade
 RUN apk add certbot
