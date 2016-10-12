@@ -1,20 +1,38 @@
 #!/usr/bin/with-contenv sh
 
+TOS=0
+EMAIL=0
 
 # If TOS isn't agreed to output error to stderr
-if [ ! "$AGREE_TO_TOS" = "yes" ]; then
-  echo "FAILURE: Let's Encrypt Terms of Service hasn't been agreed to. EXITING..." 1>&2
-  redirfd -w 1 /var/run/s6/env-stage3/S6_CMD_EXITED s6-echo -n -- "123"
-  s6-svscanctl -t /var/run/s6/services
-  exit 123
-fi
-
+if [ ! "$AGREE_TO_TOS" = "yes" ]; then   TOS=1; fi
 # If email not set output error to stderr
-if [ -z $EMAIL_ACCOUNT ]; then
-  echo "FAILURE: Email for Let's Encypt not set. EXITING..." 1>&2
-  redirfd -w 1 /var/run/s6/env-stage3/S6_CMD_EXITED s6-echo -n -- "123"
-  s6-svscanctl -t /var/run/s6/services
-  exit 124
+if [ -z $EMAIL_ACCOUNT ]; then   EMAIL=2; fi
+
+SUM=$(($TOS+$EMAIL))
+
+TOS_ERROR=$(echo "ERROR: Let's Encrypt Terms of Service hasn't been agreed to. EXITING...")
+EMAIL_ERROR=$(echo "ERROR: Email for Let's Encypt not set. EXITING...")
+
+case "$SUM" in
+        0)
+            s6-echo "TOS and Email agreed to, continuing..."
+            ;;
+        1)
+            echo "$TOS_ERROR" 1>&2
+            ;;
+        2)
+            echo "$EMAIL_ERROR" 1>&2
+            ;;
+        3)
+            echo "$TOS_ERROR" 1>&2
+            echo "$EMAIL_ERROR" 1>&2
+            ;;
+esac
+
+if [ $SUM -gt 0 ]; then
+    redirfd -w 1 /var/run/s6/env-stage3/S6_CMD_EXITED s6-echo -n -- "13$SUM"
+    s6-svscanctl -t /var/run/s6/services
+    exit "14$SUM"
 fi
 
 
