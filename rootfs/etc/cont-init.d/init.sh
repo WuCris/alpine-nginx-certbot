@@ -32,7 +32,7 @@ esac
 if [ $SUM -gt 0 ]; then
     redirfd -w 1 /var/run/s6/env-stage3/S6_CMD_EXITED s6-echo -n -- "13$SUM"
     s6-svscanctl -t /var/run/s6/services
-    exit "14$SUM"
+    exit "13$SUM"
 fi
 
 
